@@ -33,6 +33,5 @@ public class Targeter : MonoBehaviour
             _currentTarget.Target();
         }
     }
-    
-    
 }
+

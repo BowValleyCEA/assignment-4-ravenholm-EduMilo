@@ -10,8 +10,11 @@ public class FPSController : MonoBehaviour
     private CharacterController _controller;
     [SerializeField] private float mouseSensitivity = 200f;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 1.0f;
+    [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private Camera camera;
     [SerializeField] private float xCameraBounds = 60f;
+    private bool _hasJumped;
     
     #region Smoothing code
     private Vector2 _currentMouseDelta;
@@ -40,10 +43,26 @@ public class FPSController : MonoBehaviour
 
     private void Movement()
     {
-        //_moveVector = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical")) * speed * Time.deltaTime;//initial way of showing movement
-        _moveVector = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal"); //easier to explain after by using the forward and right vectors
-        _moveVector.Normalize();
-        _controller.SimpleMove(_moveVector * speed );
+
+        
+        if (_controller.isGrounded && _moveVector.y < 0)
+        {
+            _moveVector.y = 0f;
+            _hasJumped = false;
+        }
+
+        Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+        _controller.Move(move * Time.deltaTime * speed);
+
+        // Makes the player jump
+        if (Input.GetButtonDown("Jump") && !_hasJumped)
+        {
+            _moveVector.y += Mathf.Sqrt(jumpForce * -2.0f * gravityValue);
+            _hasJumped = true;
+        }
+
+        _moveVector.y += gravityValue * Time.deltaTime;
+        _controller.Move(_moveVector * Time.deltaTime);
     }
 
     private void Rotation()
