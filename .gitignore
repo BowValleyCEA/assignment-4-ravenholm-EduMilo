@@ -71,3 +71,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/SyntyStudios/PolygonKnights/Models/Characters/FixedScaleCharacters/Characters_POLYGON_Knights.fbx.meta
+
+Assets/SyntyStudios/PolygonKnights/Models/ConvexCollisions/
+
+Assets/SyntyStudios/PolygonKnights/Prefabs/Buildings/Snow/
